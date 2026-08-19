@@ -1,0 +1,36 @@
+{
+  "name": "wavemaker",
+  "displayName": "Wavemaker",
+  "version": "1.0.0",
+  "minClientVersions": {
+    "cursor": "3.13.0"
+  },
+  "description": "Generate videos, static ads, and related media with the Wavemaker MCP server.",
+  "author": {
+    "name": "Adwave",
+    "email": "support@adwave.com"
+  },
+  "publisher": "Adwave",
+  "homepage": "https://wavemaker.adwave.com",
+  "repository": "https://github.com/AdwaveInc/wavemaker-cursor-plugin",
+  "license": "MIT",
+  "logo": "assets/logo.svg",
+  "keywords": [
+    "wavemaker",
+    "adwave",
+    "video",
+    "ads",
+    "static-ads",
+    "mcp",
+    "generative-media"
+  ],
+  "category": "integrations",
+  "tags": [
+    "wavemaker",
+    "video",
+    "ads",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./mcp.json"
+}

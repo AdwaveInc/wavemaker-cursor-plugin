@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" role="img" aria-label="Wavemaker">
+  <!-- Official Wavemaker mark from https://wavemaker.io/favicon.svg, placed on a padded white tile for Cursor UI. -->
+  <rect width="192" height="192" fill="#fff"/>
+  <svg x="16" y="16" width="160" height="160" viewBox="0 0 128 128">
+    <defs>
+      <clipPath id="clip">
+        <circle cx="64" cy="64" r="64"/>
+      </clipPath>
+    </defs>
+    <circle cx="64" cy="64" r="64" fill="#cf86ad"/>
+    <g clip-path="url(#clip)">
+      <path d="M26 108c28 12 56 3 84-27 13-14 24-21 40-19v29c-15 3-27 16-43 27-30 20-64 20-91 6Z" fill="#8f62bd" opacity="0.28"/>
+      <path d="M35 113c29-8 48-25 69-44 15-14 27-24 46-22v24c-13-2-23 5-36 17-23 21-45 40-79 47Z" fill="#f29b95" opacity="0.46"/>
+      <path d="M-4 68c13-13 33-11 53 0 17 9 31 15 48 6 8-4 16-11 25-18v19c-9 8-18 16-29 21-22 10-42 2-61-7C17 82 5 80-4 86Z" fill="#f3e9ff"/>
+    </g>
+  </svg>
+</svg>
