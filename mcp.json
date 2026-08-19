@@ -1,7 +1,6 @@
 {
   "mcpServers": {
     "wavemaker": {
-      "type": "http",
       "url": "https://api.wavemaker.io/mcp"
     }
   }

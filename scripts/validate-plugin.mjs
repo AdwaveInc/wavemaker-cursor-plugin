@@ -234,11 +234,13 @@ function validateManifest(manifest) {
     fail('plugin.json "license" must be "MIT".');
   }
 
-  for (const field of ["homepage", "repository"]) {
-    if (manifest[field] !== undefined) {
-      if (typeof manifest[field] !== "string" || !/^https:\/\//.test(manifest[field])) {
-        fail(`plugin.json "${field}" must be an https URL.`);
-      }
+  if (manifest.homepage !== "https://wavemaker.adwave.com/developers") {
+    fail('plugin.json "homepage" must be "https://wavemaker.adwave.com/developers".');
+  }
+
+  if (manifest.repository !== undefined) {
+    if (typeof manifest.repository !== "string" || !/^https:\/\//.test(manifest.repository)) {
+      fail('plugin.json "repository" must be an https URL.');
     }
   }
 
@@ -279,16 +281,19 @@ function validateMcpConfig(mcp, declaredVariables) {
     return;
   }
 
+  const serverKeys = Object.keys(wavemaker);
+  if (serverKeys.length !== 1 || serverKeys[0] !== "url") {
+    fail(
+      'mcpServers.wavemaker must be URL-only: { "url": "https://api.wavemaker.io/mcp" }. No type, headers, secrets, or API key.'
+    );
+  }
+
   if (wavemaker.url !== expectedMcpUrl) {
-    fail(`mcpServers.wavemaker.url must be "${expectedMcpUrl}".`);
+    fail(`mcpServers.wavemaker.url must be "${expectedMcpUrl}" (wavemaker.adwave.com/mcp 404s).`);
   }
 
-  if (wavemaker.type !== undefined && wavemaker.type !== "http" && wavemaker.type !== "sse") {
-    fail(`mcpServers.wavemaker.type must be "http" or "sse" for a remote MCP server (found "${wavemaker.type}").`);
-  }
-
-  if (wavemaker.command || wavemaker.args) {
-    fail("mcp.json must not use stdio (command/args). Grok Bot and Cloud Agents require public HTTPS MCP.");
+  if (typeof wavemaker.url === "string" && /wavemaker\.adwave\.com\/mcp/i.test(wavemaker.url)) {
+    fail("mcpServers.wavemaker.url must not use wavemaker.adwave.com/mcp (that endpoint 404s).");
   }
 
   try {
@@ -343,6 +348,27 @@ function validateSkills() {
     }
     if (!parsed.description) {
       fail(`Skill file missing "description" in frontmatter: ${rel}`);
+    }
+    const body = readFileSync(file, "utf8");
+    const requiredSpendTools = [
+      "generate_and_render",
+      "generate_video",
+      "refine_video",
+      "render_video",
+      "generate_static_ad",
+      "edit_static_ad",
+      "scrape_and_analyze",
+      "plan_video",
+      "compose_video",
+      "upscale_video",
+    ];
+    for (const tool of requiredSpendTools) {
+      if (!body.includes(tool)) {
+        fail(`Skill ${rel} must name credit-spending tool "${tool}" and require user confirmation.`);
+      }
+    }
+    if (!/confirm/i.test(body)) {
+      fail(`Skill ${rel} must tell the agent to confirm with the user before generate/render.`);
     }
   }
 }

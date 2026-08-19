@@ -12,14 +12,13 @@ The plugin connects Cursor (and Cloud Agents / Grok Bot) to Wavemaker's public H
 {
   "mcpServers": {
     "wavemaker": {
-      "type": "http",
       "url": "https://api.wavemaker.io/mcp"
     }
   }
 }
 ```
 
-Auth is **OAuth 2.1 with PKCE**. There is no API key, client secret, or other credential in this repo or in the plugin config.
+Auth is **OAuth 2.1 + PKCE + dynamic client registration**. There is no API key, client secret, header, or other credential in this repo or in the plugin config. The MCP URL is `https://api.wavemaker.io/mcp` only — `wavemaker.adwave.com/mcp` 404s.
 
 ## Install
 
@@ -46,7 +45,7 @@ Or run `/add-plugin wavemaker` in chat.
 
 ## OAuth connect flow
 
-Wavemaker MCP uses OAuth 2.1 + PKCE (`S256` only). Cursor handles discovery, dynamic client registration, and token storage. You do not paste a key.
+Wavemaker MCP uses OAuth 2.1 + PKCE (`S256` only) and dynamic client registration. Cursor handles discovery, DCR, and token storage. You do not paste a key.
 
 1. After install, enable the **wavemaker** MCP server if it is not already on.
 2. The first tool call (or first connect) opens a browser tab at Wavemaker's authorize endpoint.
@@ -66,7 +65,7 @@ Ask Cursor to generate a video, a static ad, or related media. Examples:
 - "Estimate credits for a 15-second YouTube spot, then generate it if I confirm"
 - "Check my Wavemaker credit balance"
 
-The bundled skill tells the agent to confirm before `generate_and_render` or other credit-spending calls, and to prefer `get_cost_estimate` / `get_account` when planning.
+The bundled skill tells the agent to confirm with the user before every credit-spending generate or render (`generate_and_render`, `generate_video`, `refine_video`, `render_video`, `generate_static_ad`, `edit_static_ad`, `scrape_and_analyze`, `plan_video`, `compose_video`, `upscale_video`, DCO produce tools, and credit-spending `execute_tool` runs). Prefer `get_cost_estimate` / `get_account` when planning.
 
 Generation spends credits. A Wavemaker account with available credits is required. API and MCP access are included on Pro plans and above; see [pricing](https://wavemaker.adwave.com).
 
